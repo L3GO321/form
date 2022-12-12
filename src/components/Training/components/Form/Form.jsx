@@ -7,23 +7,22 @@ export const Form = ({ addTraning }) => {
     distance: ''
   });
 
-  const [dateValid, isDateValid] = useState(true)
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (form.date && form.distance && dateValid) addTraning(form)
+    addTraning(form)
   };
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
+    let dataValue = value
 
     if (name === 'date') {
-      isDateValid(/^[\d]{2}.[\d]{2}.[\d]{4}$/.test(value) ? true : false)
+      dataValue = dataValue?.split('-')?.reverse()?.join('.')
     }
 
     setForm({
       ...form,
-      [name]: value
+      [name]: dataValue
     })
   }
 
@@ -33,14 +32,13 @@ export const Form = ({ addTraning }) => {
         Дата(ДД.ММ.ГГГГ)
         <input
           className={styles.input}
-          style={{ borderColor: dateValid ? 'black' : 'red' }}
-          type="text"
+          type="date"
           id="date"
           name='date'
           value={form.data}
           onChange={handleChange}
+          required
         />
-        {!dateValid && <div className={styles.valid}>Неверный формат даты</div>}
       </label>
 
       <label htmlFor="distance" className={styles.label}>
@@ -52,6 +50,7 @@ export const Form = ({ addTraning }) => {
           name='distance'
           value={form.distance}
           onChange={handleChange}
+          required
         />
       </label>
 
@@ -59,7 +58,6 @@ export const Form = ({ addTraning }) => {
         className={`${styles.input} ${styles.input_btn}`}
         type="submit"
         value={'OK'}
-        disabled={!form.date || !form.distance || !dateValid}
       />
     </form>
   )

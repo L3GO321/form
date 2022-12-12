@@ -30,10 +30,3 @@
 .input:focus-visible {
   outline: none;
 }
-
-.valid {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
-  color: red;
-}
